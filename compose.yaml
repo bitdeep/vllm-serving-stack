@@ -1,0 +1,12 @@
+services:
+  vllm:
+    extends:
+      file: engine.compose.yaml
+      service: vllm
+    ports:
+      - "127.0.0.1:${HTTP_PORT:-8000}:8000"
+    volumes:
+      - models:/root/.cache/huggingface
+
+volumes:
+  models:

@@ -1,0 +1,37 @@
+services:
+  vllm:
+    image: vllm/vllm-openai@sha256:4801151759655c57606c844662e5213403c032a62d149c7ce61d615759a821ef
+    restart: "no"
+    ipc: host
+    environment:
+      MODEL_ID: Qwen/Qwen3-8B
+      SERVED_MODEL_NAME: local-llm
+      MAX_MODEL_LEN: "24576"
+      GPU_MEMORY_UTILIZATION: "0.50"
+      QUANTIZATION: fp8
+      KV_CACHE_DTYPE: fp8
+      MAX_NUM_SEQS: "8"
+      SWAP_SPACE_GIB: "1"
+    entrypoint: ["/bin/bash", "-euc"]
+    command:
+      - >-
+        exec vllm serve
+        --model "$${MODEL_ID}"
+        --served-model-name "$${SERVED_MODEL_NAME}"
+        --max-model-len "$${MAX_MODEL_LEN}"
+        --gpu-memory-utilization "$${GPU_MEMORY_UTILIZATION}"
+        --quantization "$${QUANTIZATION}"
+        --kv-cache-dtype "$${KV_CACHE_DTYPE}"
+        --max-num-seqs "$${MAX_NUM_SEQS}"
+        --swap-space "$${SWAP_SPACE_GIB}"
+        --enforce-eager
+    deploy:
+      resources:
+        limits:
+          cpus: "6"
+          memory: 32g
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
