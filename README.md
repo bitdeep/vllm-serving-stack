@@ -44,6 +44,8 @@ Extend service `vllm` from `engine.compose.yaml` in your own deployment. Overrid
 | `MAX_NUM_SEQS` | `8` |
 | `SWAP_SPACE_GIB` | `1` |
 
+For the analytical memory budget and decode bandwidth ceiling behind these defaults, see [docs/capacity-qwen3-fp8.md](docs/capacity-qwen3-fp8.md).
+
 Private deployments supply existing cache mounts, network, model alias and hardware-specific driver paths. No host names, private registries, client prompts or credentials are required by this recipe. `restart: "no"` allows an external lifecycle manager to own demand loading; without one, explicitly start and stop the service.
 
 GPU memory utilization is a fraction of the full device, not of memory currently free. Measure startup peak, prefill, concurrent decoding and other workloads before increasing it. Shared IPC is enabled for this vLLM recipe; deploy within one trusted inference boundary.
