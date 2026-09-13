@@ -44,6 +44,8 @@ Extend service `vllm` from `engine.compose.yaml` in your own deployment. Overrid
 | `MAX_NUM_SEQS` | `8` |
 | `SWAP_SPACE_GIB` | `1` |
 
+The first-principles walkthrough of this budget — and the bandwidth ceiling your benchmarks should chase — is chapter 01 of the [garage-inference book](https://github.com/bitdeep/garage-inference/blob/main/01-llm-serving/README.md).
+
 For the analytical memory budget and decode bandwidth ceiling behind these defaults, see [docs/capacity-qwen3-fp8.md](docs/capacity-qwen3-fp8.md).
 
 Private deployments supply existing cache mounts, network, model alias and hardware-specific driver paths. No host names, private registries, client prompts or credentials are required by this recipe. `restart: "no"` allows an external lifecycle manager to own demand loading; without one, explicitly start and stop the service.
